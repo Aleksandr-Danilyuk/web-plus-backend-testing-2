@@ -33,8 +33,8 @@ describe('PostsService', () => {
   
     expect(postsService.findMany({skip : 0, limit : 0})).toHaveLength(0);
     expect(postsService.findMany({limit : 0})).toHaveLength(0);
-    expect(postsService.findMany({skip : 0})).toEqual(posts.map((post) => post.text));
-    expect(postsService.findMany({limit : 100})).toEqual(posts.map((post) => post.text));
+    expect(postsService.findMany({skip : 0}).map((post) => post.text)).toEqual(posts.map((post) => post.text));
+    expect(postsService.findMany({limit : 100}).map((post) => post.text)).toEqual(posts.map((post) => post.text));
     expect(postsService.findMany({skip : 100})).toHaveLength(0);
 
     });
@@ -76,8 +76,8 @@ describe('PostsService', () => {
     it('should remove the post with given id from the list', () => {
       postsService.delete(postIdHero);
 
-      expect(postsService.findMany().find(post => post.id === ourHeroId));
-      expect(postsService.findMany().find(post => post.id !== postIdHero));
+      expect(postsService.findMany().find(post => post.id === ourHeroId)).toBeDefined();
+      expect(postsService.findMany().find(post => post.id === postIdHero)).toBeUndefined();
     });
 
     it('should do nothing if post does not exist (no error, just filtered out)', () => {
